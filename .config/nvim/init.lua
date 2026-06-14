@@ -1,0 +1,38 @@
+--
+--     ██╗███╗  ██╗██╗████████╗
+--     ██║████╗ ██║██║╚══██╔══╝
+--     ██║██╔██╗██║██║   ██║
+--     ██║██║╚████║██║   ██║
+--     ██║██║ ╚███║██║   ██║
+--     ╚═╝╚═╝  ╚══╝╚═╝   ╚═╝
+--
+
+-- Bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
+
+vim.o.guifont = "JetBrainsMonoNL Nerd Font:h13"
+
+-- Editing
+vim.opt.clipboard = "unnamedplus" -- Integrate with system clipboard
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.shiftwidth = 4 -- Size of an indent
+vim.opt.softtabstop = 4 -- Number of spaces tabs count for in edit
+vim.opt.tabstop = 4 -- Number of spaces tabs count for
+vim.opt.wrap = true -- Enable word wrapping
+
+-- Markdown
+vim.g.markdown_folding = 1 -- Allow folding markdown headings
+
+-- Neovide settings
+if vim.g.neovide == true then
+  vim.g.neovide_cursor_animation_length = 0.05 -- Default 0.13
+  vim.g.neovide_scroll_animation_length = 0.2 -- Default 0.3
+end
+-- Keymaps
+vim.keymap.set("i", "jk", "<ESC>") -- Leave Insert mode with jk
+vim.keymap.set("i", "<C-BS>", "<C-W>") -- Delete by word with Ctrl-BS
+vim.keymap.set("n", "<CR>", "o") -- Enter to open a new line
+vim.keymap.set("n", "<C-A>", "ggVG") -- Select all
+vim.keymap.set("n", "<A-,>", ":BufferLineMovePrev<CR>", { desc = "Move buffer backward" }) -- Move buffer left in buffer line
+vim.keymap.set("n", "<A-.>", ":BufferLineMoveNext<CR>", { desc = "Move buffer forward" }) -- Move buffer right in buffer line
+vim.keymap.set("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>") -- Toggle fullscreen with F11
