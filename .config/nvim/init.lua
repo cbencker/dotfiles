@@ -36,3 +36,4 @@ vim.keymap.set("n", "<C-A>", "ggVG") -- Select all
 vim.keymap.set("n", "<A-,>", ":BufferLineMovePrev<CR>", { desc = "Move buffer backward" }) -- Move buffer left in buffer line
 vim.keymap.set("n", "<A-.>", ":BufferLineMoveNext<CR>", { desc = "Move buffer forward" }) -- Move buffer right in buffer line
 vim.keymap.set("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>") -- Toggle fullscreen with F11
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>") -- Use <ESC> to exit terminal mode
