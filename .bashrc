@@ -57,8 +57,22 @@ fi
 # PROMPT STYLING
 BLUE='\[\e[34m\]'
 GREEN='\[\e[32m\]'
+YELLOW='\[\e[33m\]'
 RESET='\[\e[0m\]'
-export PS1="${BLUE}[${RESET}${GREEN}\u${RESET}@\h${BLUE}]${RESET}:\w${BLUE}>${RESET}${GREEN}\$${RESET} "
+
+create_prompt() {
+    local b
+    b=$(git branch --show-current 2>/dev/null)
+
+    if [ -n "$b" ]; then
+        PS1="${BLUE}[${RESET}${GREEN}\u${RESET}@\h${BLUE}]${RESET}:\w ${YELLOW}(${b})${RESET}${BLUE}>${RESET}${GREEN}\$${RESET} "
+
+    else
+        PS1="${BLUE}[${RESET}${GREEN}\u${RESET}@\h${BLUE}]${RESET}:\w${BLUE}>${RESET}${GREEN}\$${RESET} "
+    fi
+}
+
+PROMPT_COMMAND=create_prompt
 
 # Use nvim, or vim, or vi
 if command -v nvim >/dev/null 2>&1; then
