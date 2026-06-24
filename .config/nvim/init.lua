@@ -32,6 +32,7 @@ end
 -- Keymaps
 vim.keymap.set("i", "jk", "<ESC>") -- Leave Insert mode with jk
 vim.keymap.set("i", "<C-BS>", "<C-W>") -- Delete by word with Ctrl-BS
+vim.keymap.set("i", "<S-Tab>", "<C-D>") -- Unindent with Shift-Tab
 vim.keymap.set("n", "<CR>", "o") -- Enter to open a new line
 vim.keymap.set("n", "<C-A>", "ggVG") -- Select all
 vim.keymap.set("n", "<A-,>", ":BufferLineMovePrev<CR>", { desc = "Move buffer backward" }) -- Move buffer left in buffer line
