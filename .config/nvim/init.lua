@@ -30,6 +30,11 @@ if vim.g.neovide == true then
 end
 
 -- Keymaps
+-- Make arrow keys respect wrapped lines
+vim.keymap.set("i", "<Up>", "<C-o>gk", { noremap = true })
+vim.keymap.set("i", "<Down>", "<C-o>gj", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<Up>", "<C-o>gk", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<Down>", "<C-o>gj", { noremap = true })
 vim.keymap.set("i", "jk", "<ESC>") -- Leave Insert mode with jk
 vim.keymap.set("i", "<C-BS>", "<C-W>") -- Delete by word with Ctrl-BS
 vim.keymap.set("i", "<S-Tab>", "<C-D>") -- Unindent with Shift-Tab
