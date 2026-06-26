@@ -61,11 +61,18 @@ YELLOW='\[\e[33m\]'
 RESET='\[\e[0m\]'
 
 create_prompt() {
-    local b
-    b=$(git branch --show-current 2>/dev/null)
+    local ref
 
-    if [ -n "$b" ]; then
-        PS1="${BLUE}[${RESET}${GREEN}\u${RESET}@\h${BLUE}]${RESET}:\w ${YELLOW}(${b})${RESET}${BLUE}>${RESET}${GREEN}\$${RESET} "
+    # Current branch name, if on a branch
+    ref=$(git branch --show-current 2>/dev/null)
+
+    # If detached HEAD, show short commit hash
+    if [ -z "$ref" ]; then
+        ref=$(git rev-parse --short HEAD 2>/dev/null)
+    fi
+
+    if [ -n "$ref" ]; then
+        PS1="${BLUE}[${RESET}${GREEN}\u${RESET}@\h${BLUE}]${RESET}:\w ${YELLOW}(${ref})${RESET}${BLUE}>${RESET}${GREEN}\$${RESET} "
 
     else
         PS1="${BLUE}[${RESET}${GREEN}\u${RESET}@\h${BLUE}]${RESET}:\w${BLUE}>${RESET}${GREEN}\$${RESET} "
