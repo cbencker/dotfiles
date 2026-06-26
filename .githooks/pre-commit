@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# NOTE: Enable with `git config --global core.hooksPath ~/.githooks`
+
+# Split the strings so this file can be committed to a repo
+patterns=(
+    "no""checkin"
+    "<<""<<<<<"
+    ">>"">>>>>"
+    "==""====="
+)
+
+failed=0
+
+for p in "${patterns[@]}"; do
+    if git grep -n -i -I -F --cached "$p" >/dev/null; then
+        echo
+        echo "Found forbidden pattern: $p"
+        git grep -n -i -I -F --cached "$p"
+        failed=1
+    fi
+done
+
+if [ "$failed" -ne 0 ]; then
+    echo
+    echo "Commit aborted."
+    exit 1
+fi
