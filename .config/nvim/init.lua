@@ -36,10 +36,10 @@ vim.keymap.set("i", "<Down>", "<C-o>gj", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<Up>", "<C-o>gk", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<Down>", "<C-o>gj", { noremap = true })
 vim.keymap.set("i", "jk", "<ESC>") -- Leave Insert mode with jk
-vim.keymap.set("i", "<C-BS>", "<C-W>") -- Delete by word with Ctrl-BS
-vim.keymap.set("i", "<S-Tab>", "<C-D>") -- Unindent with Shift-Tab
+vim.keymap.set("i", "<C-BS>", "<C-w>") -- Delete by word with Ctrl-BS
+vim.keymap.set("i", "<S-Tab>", "<C-d>") -- Unindent with Shift-Tab
 vim.keymap.set("n", "<CR>", "o") -- Enter to open a new line
-vim.keymap.set("n", "<C-A>", "ggVG") -- Select all
+vim.keymap.set("n", "<C-a>", "ggVG") -- Select all
 vim.keymap.set("n", "<A-,>", ":BufferLineMovePrev<CR>", { desc = "Move buffer backward" }) -- Move buffer left in buffer line
 vim.keymap.set("n", "<A-.>", ":BufferLineMoveNext<CR>", { desc = "Move buffer forward" }) -- Move buffer right in buffer line
 vim.keymap.set("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>") -- Toggle fullscreen with F11
