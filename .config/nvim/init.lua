@@ -12,6 +12,28 @@ require("config.lazy")
 
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
 
+-- Autocommands
+local trim_group = vim.api.nvim_create_augroup("TrimWhitespace", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = trim_group,
+  pattern = "*",
+  callback = function(args)
+    local ignore = {
+      markdown = true,
+      gitcommit = true,
+    }
+
+    if ignore[vim.bo[args.buf].filetype] then
+      return
+    end
+
+    local view = vim.fn.winsaveview()
+    vim.cmd([[%s/\s\+$//e]]) -- Remove trailing whitespace
+    vim.fn.winrestview(view)
+  end,
+})
+
 -- Editing
 vim.opt.clipboard = "unnamedplus" -- Integrate with system clipboard
 vim.opt.expandtab = true -- Use spaces instead of tabs
