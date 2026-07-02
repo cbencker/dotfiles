@@ -34,6 +34,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- Spellfiles
+vim.opt.spellfile = {
+  vim.fn.stdpath("config") .. "/spell/private.utf-8.add",
+  vim.fn.stdpath("config") .. "/spell/global.utf-8.add",
+}
+
 -- Editing
 vim.opt.clipboard = "unnamedplus" -- Integrate with system clipboard
 vim.opt.expandtab = true -- Use spaces instead of tabs
