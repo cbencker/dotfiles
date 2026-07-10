@@ -11,6 +11,8 @@
 require("config.lazy")
 
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
+-- Recommended for auto-session
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- Autocommands
 local trim_group = vim.api.nvim_create_augroup("TrimWhitespace", { clear = true })
