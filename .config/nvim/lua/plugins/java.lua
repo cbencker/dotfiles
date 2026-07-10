@@ -1,6 +1,10 @@
 -- ~/.config/nvim/lua/plugins/java.lua
 
--- ../config/lazy.lua will only enable Java features on Windows machines
+-- Don't set up on non-Windows machines
+if vim.fn.has("win32") == 0 then
+  return {}
+end
+
 return {
   {
     "mfussenegger/nvim-jdtls",

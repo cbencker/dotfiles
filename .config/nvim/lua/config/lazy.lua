@@ -23,7 +23,7 @@ local spec = {
 
 -- Only enable Java language features on Windows
 -- (Make sure lang.java is not enabled in LazyExtras UI)
-if vim.fn.has("windows") == 1 then
+if vim.fn.has("win32") == 1 then
   table.insert(spec, {
     import = "lazyvim.plugins.extras.lang.java",
   })
