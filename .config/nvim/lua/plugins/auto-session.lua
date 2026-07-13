@@ -17,10 +17,11 @@ return {
     },
     keys = {
       -- Will use Telescope if installed or a vim.ui.select picker otherwise
-      -- TODO: Make these more like the snacks dashboard with <leader>q
-      { "<leader>wr", "<cmd>AutoSession search<CR>", desc = "Session search" },
-      { "<leader>ws", "<cmd>AutoSession save<CR>", desc = "Save session" },
-      { "<leader>wa", "<cmd>AutoSession toggle<CR>", desc = "Toggle autosave" },
+      -- TODO: Set up custom icons for these
+      { "<leader>qd", "<cmd>AutoSession disable<CR>", desc = "Session disable autosave" },
+      { "<leader>qh", "<cmd>AutoSession restore Home<CR>", desc = "Session home" },
+      { "<leader>ql", "<cmd>AutoSession search<CR>", desc = "Session load" },
+      { "<leader>qt", "<cmd>AutoSession toggle<CR>", desc = "Session toggle autosave" },
     },
   },
 }
