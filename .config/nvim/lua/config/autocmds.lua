@@ -9,10 +9,10 @@
 
 -- Make sure to restore Markdown folds after loading a Markdown file
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
-  callback = function()
-    vim.schedule(function()
-      pcall(vim.cmd, "loadview")
-    end)
-  end,
+    pattern = "markdown",
+    callback = function()
+        vim.schedule(function()
+            pcall(vim.cmd, "loadview")
+        end)
+    end,
 })

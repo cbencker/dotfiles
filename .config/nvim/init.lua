@@ -18,42 +18,42 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 local trim_group = vim.api.nvim_create_augroup("TrimWhitespace", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  group = trim_group,
-  pattern = "*",
-  callback = function(args)
-    local ignore = {
-      markdown = true,
-      gitcommit = true,
-    }
+    group = trim_group,
+    pattern = "*",
+    callback = function(args)
+        local ignore = {
+            markdown = true,
+            gitcommit = true,
+        }
 
-    if ignore[vim.bo[args.buf].filetype] then
-      return
-    end
+        if ignore[vim.bo[args.buf].filetype] then
+            return
+        end
 
-    local view = vim.fn.winsaveview()
-    vim.cmd([[%s/\s\+$//e]]) -- Remove trailing whitespace
-    vim.fn.winrestview(view)
-  end,
+        local view = vim.fn.winsaveview()
+        vim.cmd([[%s/\s\+$//e]]) -- Remove trailing whitespace
+        vim.fn.winrestview(view)
+    end,
 })
 
 -- Commands
 -- Create empty windows for diffing arbitrary text
 vim.api.nvim_create_user_command("DiffScratch", function()
-  vim.cmd("tabnew")
-  vim.cmd("vnew")
-  vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile")
-  vim.cmd("diffthis")
-  vim.cmd("wincmd p")
-  vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile")
-  vim.cmd("diffthis")
+    vim.cmd("tabnew")
+    vim.cmd("vnew")
+    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile")
+    vim.cmd("diffthis")
+    vim.cmd("wincmd p")
+    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile")
+    vim.cmd("diffthis")
 end, {})
 
 -- Spellfiles
 -- By default, zg will put words into a private spellfile.
 -- Running 2zg will use the global spellfile, which can be synced to Github
 vim.opt.spellfile = {
-  vim.fn.stdpath("config") .. "/spell/private.utf-8.add",
-  vim.fn.stdpath("config") .. "/spell/global.utf-8.add",
+    vim.fn.stdpath("config") .. "/spell/private.utf-8.add",
+    vim.fn.stdpath("config") .. "/spell/global.utf-8.add",
 }
 
 -- Editing
@@ -70,8 +70,8 @@ vim.g.markdown_folding = 1 -- Allow folding markdown headings
 
 -- Neovide settings
 if vim.g.neovide == true then
-  vim.g.neovide_cursor_animation_length = 0.05 -- Default 0.13
-  vim.g.neovide_scroll_animation_length = 0.2 -- Default 0.3
+    vim.g.neovide_cursor_animation_length = 0.05 -- Default 0.13
+    vim.g.neovide_scroll_animation_length = 0.2 -- Default 0.3
 end
 
 -- Keymaps

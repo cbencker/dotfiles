@@ -1,13 +1,13 @@
 -- Disable Markdown linting
 return {
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        markdown = {},
-      },
+    {
+        "mfussenegger/nvim-lint",
+        opts = {
+            linters_by_ft = {
+                markdown = {},
+            },
+        },
     },
-  },
 }
 
 -- Nicer Markdown renderer
