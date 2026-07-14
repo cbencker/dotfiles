@@ -1,3 +1,5 @@
+local session = require("config.session")
+
 return {
     {
         "folke/persistence.nvim",
@@ -18,9 +20,28 @@ return {
         keys = {
             -- Will use Telescope if installed or a vim.ui.select picker otherwise
             -- TODO: Set up custom icons for these
+            {
+                "<leader>qc",
+                function()
+                    session.safe_restore("Config")
+                end,
+                desc = "Session: Config",
+            },
             { "<leader>qd", "<cmd>AutoSession disable<CR>", desc = "Session disable autosave" },
-            { "<leader>qh", "<cmd>AutoSession restore Home<CR>", desc = "Session home" },
-            { "<leader>ql", "<cmd>AutoSession search<CR>", desc = "Session load" },
+            {
+                "<leader>qh",
+                function()
+                    session.safe_restore("Home")
+                end,
+                desc = "Session: Home",
+            },
+            {
+                "<leader>ql",
+                function()
+                    session.safe_search()
+                end,
+                desc = "Session load",
+            },
             { "<leader>qt", "<cmd>AutoSession toggle<CR>", desc = "Session toggle autosave" },
         },
     },
