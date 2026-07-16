@@ -34,4 +34,5 @@ vim.g.markdown_folding = 1 -- Allow folding markdown headings
 if vim.g.neovide == true then
     vim.g.neovide_cursor_animation_length = 0.05 -- Default 0.13
     vim.g.neovide_scroll_animation_length = 0.2 -- Default 0.3
+    vim.g.neovide_progress_bar_enabled = false
 end
