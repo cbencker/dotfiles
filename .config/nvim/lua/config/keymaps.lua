@@ -21,7 +21,13 @@ vim.keymap.set("i", "<C-BS>", "<C-w>") -- Delete by word with Ctrl-BS
 vim.keymap.set("i", "<S-Tab>", "<C-d>") -- Unindent with Shift-Tab
 vim.keymap.set("n", "<CR>", "o") -- Enter to open a new line
 vim.keymap.set("n", "<C-a>", "ggVG") -- Select all
-vim.keymap.set("n", "<A-,>", ":BufferLineMovePrev<CR>", { desc = "Move buffer backward" }) -- Move buffer left in buffer line
-vim.keymap.set("n", "<A-.>", ":BufferLineMoveNext<CR>", { desc = "Move buffer forward" }) -- Move buffer right in buffer line
-vim.keymap.set("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>") -- Toggle fullscreen with F11
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>") -- Use <ESC> to exit terminal mode
+
+-- Move buffer left/right in buffer line
+vim.keymap.set("n", "<A-,>", ":BufferLineMovePrev<CR>", { desc = "Move buffer backward" })
+vim.keymap.set("n", "<A-.>", ":BufferLineMoveNext<CR>", { desc = "Move buffer forward" })
+
+-- Toggle fullscreen with F11
+vim.keymap.set("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>")
+--
+-- Use <ESC> to exit terminal mode
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")

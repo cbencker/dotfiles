@@ -13,6 +13,13 @@ return {
                 update_n_lines = "gsn", -- Update `n_lines`
             },
         },
+        config = function(_, opts)
+            require("mini.surround").setup(opts)
+
+            require("which-key").add({
+                { "gs", group = "surround" },
+            })
+        end,
     },
     {
         "nvim-mini/mini.trailspace",

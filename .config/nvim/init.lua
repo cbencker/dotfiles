@@ -7,14 +7,18 @@
 --     ╚═╝╚═╝  ╚══╝╚═╝   ╚═╝
 --
 
--- Bootstrap lazy.nvim, LazyVim and your plugins
+-- Bootstrap lazy.nvim, LazyVim, and plugins
 require("config.lazy")
 
-vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
+if vim.fn.has("win32") == 1 then
+    vim.o.guifont = "JetBrainsMonoNL Nerd Font:h10"
+else
+    vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
+end
+
 -- Recommended for auto-session
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
--- Commands
 -- Create empty windows for diffing arbitrary text
 vim.api.nvim_create_user_command("DiffScratch", function()
     vim.cmd("tabnew")

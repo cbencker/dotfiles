@@ -20,15 +20,13 @@ vim.opt.spellfile = {
 
 -- Editing
 vim.opt.clipboard = "unnamedplus" -- Integrate with system clipboard
+vim.opt.diffopt:append("vertical") -- Use vertical splits for :diffsplit
 vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.scrolloff = 8 -- Lines to keep above/below the cursor
 vim.opt.shiftwidth = 4 -- Size of an indent
 vim.opt.softtabstop = 4 -- Number of spaces tabs count for in edit
 vim.opt.tabstop = 4 -- Number of spaces tabs count for
 vim.opt.wrap = true -- Enable word wrapping
-vim.opt.diffopt:append("vertical") -- Use vertical splits for :diffsplit
-
--- Markdown
-vim.g.markdown_folding = 1 -- Allow folding markdown headings
 
 -- Neovide settings
 if vim.g.neovide == true then

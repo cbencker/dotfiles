@@ -13,7 +13,7 @@ return {
         ---@module "auto-session"
         ---@type AutoSession.Config
         opts = {
-            suppressed_dirs = { "~/", "/", "~/Downloads" },
+            suppressed_dirs = { "~/", "/", "~/Downloads", "C:\\Program Files\\Neovide" },
             bypass_save_filetypes = { "alpha", "dashboard", "snacks_dashboard" },
             -- log_level = 'debug',
         },

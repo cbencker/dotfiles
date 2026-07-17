@@ -15,16 +15,6 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
--- Make sure to restore Markdown folds after loading a Markdown file
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function()
-        vim.schedule(function()
-            pcall(vim.cmd, "loadview")
-        end)
-    end,
-})
-
 local trim_group = vim.api.nvim_create_augroup("TrimWhitespace", { clear = true })
 
 -- Remove trailing whitespace on save
