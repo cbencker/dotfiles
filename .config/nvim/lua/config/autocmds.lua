@@ -36,3 +36,33 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         vim.fn.winrestview(view)
     end,
 })
+
+-- Save and restore folds with views
+local view_group = vim.api.nvim_create_augroup("AutoView", { clear = true })
+
+-- Save view when leaving a window/buffer
+vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
+    group = view_group,
+    callback = function(args)
+        if vim.bo[args.buf].buftype == "" then
+            vim.cmd("silent! mkview")
+        end
+    end,
+})
+
+-- Load view when entering a buffer
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+    group = view_group,
+    callback = function(args)
+        if vim.bo[args.buf].buftype ~= "" then
+            return
+        end
+
+        local view = vim.fn.bufname(args.buf)
+        if view ~= "" then
+            vim.schedule(function()
+                vim.cmd("silent! loadview")
+            end)
+        end
+    end,
+})
