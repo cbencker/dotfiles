@@ -10,7 +10,6 @@
 
 ---@class Session
 local M = {}
-
 ---Returns true if `dir` is an auto-session suppressed directory.
 ---@param dir string
 ---@return boolean
@@ -40,6 +39,15 @@ local function has_modified_buffers()
         end
     end
     return false
+end
+
+---Checks if a session with the name `name` exists. Case-sensitivity
+---depends on the underlying filesystem.
+---@param name string The name of the session to check for
+---@return boolean
+function M.exists(name)
+    local dir = vim.fn.stdpath("data") .. "/sessions/"
+    return vim.uv.fs_stat(dir .. name .. ".vim") ~= nil
 end
 
 ---If there are no unsaved buffers, saves the current session, unless it
