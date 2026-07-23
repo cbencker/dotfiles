@@ -21,11 +21,17 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 -- Create empty windows for diffing arbitrary text
 vim.api.nvim_create_user_command("DiffScratch", function()
-    vim.cmd("tabnew")
-    vim.cmd("vnew")
-    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile")
-    vim.cmd("diffthis")
-    vim.cmd("wincmd p")
-    vim.cmd("setlocal buftype=nofile bufhidden=wipe noswapfile")
-    vim.cmd("diffthis")
+    vim.cmd.tabnew()
+    vim.bo.buftype = "nofile"
+    vim.bo.bufhidden = "wipe"
+    vim.bo.swapfile = false
+    vim.cmd.diffthis()
+
+    vim.cmd.vnew()
+    vim.bo.buftype = "nofile"
+    vim.bo.bufhidden = "wipe"
+    vim.bo.swapfile = false
+    vim.cmd.diffthis()
+
+    vim.cmd.wincmd("p")
 end, {})

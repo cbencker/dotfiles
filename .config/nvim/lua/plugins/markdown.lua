@@ -10,8 +10,9 @@ return {
     },
 }
 
--- Nicer Markdown renderer
--- (but more visually busy)
+-- Render-markdown.nvim is used for markdown rendering, but LazyVim ships
+-- different (more toned down) defaults. Enabling it below with plugin
+-- defaults will make things more visually busy.
 --return {
 --  {
 --    "MeanderingProgrammer/render-markdown.nvim",
