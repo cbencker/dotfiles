@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+shopt -s nullglob
+
+# Parse command-line options
+do_fetch=false
+
+while getopts "fh" opt; do
+    case "$opt" in
+    f)
+        do_fetch=true
+        ;;
+    h)
+        cat <<EOF
+Usage: $(basename "$0") [options]
+
+Options:
+  -f    Perform 'git fetch --prune --porcelain' before checking status.
+  -h    Show this help message.
+EOF
+        exit 0
+        ;;
+    *)
+        echo "Usage: $(basename "$0") [-f]"
+        exit 1
+        ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+
+# Colors
+GREEN=$'\e[32m'
+BLUE=$'\e[34m'
+YELLOW=$'\e[33m'
+BOLD=$'\e[1m'
+RESET=$'\e[0m'
+
+for dir in */; do
+    repo="${dir%/}"
+
+    # Skip non-Git directories
+    [[ -d "$repo/.git" ]] || continue
+
+    pushd "$repo" >/dev/null || continue
+
+    changed=false
+    output=()
+
+    #
+    # Fetch
+    #
+    if $do_fetch; then
+        fetch_output=$(git fetch --prune --porcelain 2>&1)
+
+        if [[ -n "$fetch_output" ]]; then
+            changed=true
+            output+=("${BLUE}Fetch:${RESET}")
+            output+=("${fetch_output}")
+            output+=("")
+        fi
+    fi
+
+    #
+    # Status
+    #
+    status=$(git status --short)
+
+    if [[ -n "$status" ]]; then
+        changed=true
+        output+=("${BLUE}Status:${RESET}")
+        output+=("$status")
+        output+=("")
+    fi
+
+    #
+    # Stashes
+    #
+    stashes=$(git stash list)
+
+    if [[ -n "$stashes" ]]; then
+        changed=true
+        output+=("${BLUE}Stashes:${RESET}")
+        output+=("$stashes")
+        output+=("")
+    fi
+
+    #
+    # Output
+    #
+    if $changed; then
+        printf "%b\n" "${BOLD}${YELLOW}${repo}${RESET}"
+        printf '%*s\n' "${#repo}" '' | tr ' ' '-'
+        printf "%b\n" "${output[@]}"
+    else
+        printf "%b\n" "${BOLD}${GREEN}${repo}: Clean${RESET}"
+    fi
+
+    popd >/dev/null
+done

@@ -95,3 +95,6 @@ fi
 
 # Set Rust environment variables
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# Add custom scripts to path
+export PATH="$HOME/bin:$PATH"
