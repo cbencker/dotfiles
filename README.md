@@ -63,6 +63,16 @@ If using the pre-commit hook, it may need to be set as executable:
 chmod +x ~/.githooks/pre-commit
 ```
 
+### git-summary
+
+`~/bin/git-summary` is a simple Bash utility that scans a directory of Git repositories and reports working tree status and stashes for each. It can also optionally run a fetch on each repository, reporting the results if there was anything to fetch.
+
+The script may need to be set as executable:
+
+```sh
+chmod +x ~/bin/git-summary
+```
+
 ## Resources
 
 - [ANSI text generator](https://patorjk.com/software/taag/#p=display&f=ANSI+Shadow)
