@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+# Monitor directories for Syncthing conflict files and display notifications
+#
+# Requirements:
+#   - inotify-tools
+#   - libnotify (notify-send)
+#
+# The script watches for newly created or moved files matching FILE_PATTERN
+# and sends a desktop notification when one is detected.
+
+# Installation:
+#   1. Copy this script to ~/bin/syncthing-monitor
+#   2. Copy syncthing-monitor.service to:
+#        ~/.config/systemd/user/syncthing-monitor.service
+#   3. Reload systemd user services:
+#        systemctl --user daemon-reload
+#   4. Enable and start the service:
+#        systemctl --user enable --now syncthing-monitor.service
+#
+# After enabling, the service will automatically start when logging in.
+#
+# To check status:
+#        systemctl --user status syncthing-monitor.service
+#
+# To view logs:
+#        journalctl --user -u syncthing-monitor.service
+
+set -uo pipefail
+
+# ----------------------------------------------------------
+# Configuration
+# ----------------------------------------------------------
+
+LOGDIR="$HOME/.local/log"
+LOGFILE="$LOGDIR/syncthing-monitor.log"
+
+DIRECTORIES_TO_MONITOR=(
+    "$HOME/Documents/KeePass"
+    "$HOME/Documents/PKM"
+)
+
+FILE_PATTERN="*sync-conflict*"
+
+APP_NAME="Syncthing Conflict Monitor"
+
+# ----------------------------------------------------------
+# Setup
+# ----------------------------------------------------------
+
+mkdir -p "$LOGDIR"
+
+# Redirect all output to the log file
+exec >>"$LOGFILE" 2>&1
+
+echo "$(date): Starting Syncthing conflict monitor"
+
+# Verify monitored directories exist
+for DIR in "${DIRECTORIES_TO_MONITOR[@]}"; do
+    if [[ ! -d "$DIR" ]]; then
+        echo "$(date): Directory does not exist: $DIR" >&2
+        exit 1
+    fi
+done
+
+# ----------------------------------------------------------
+# Monitoring loop
+# ----------------------------------------------------------
+
+while IFS= read -r FILE; do
+    # Remove everything up to the last `/`
+    FILENAME="${FILE##*/}"
+
+    if [[ "$FILENAME" == $FILE_PATTERN ]]; then
+        echo "$(date): Conflict file detected: $FILE"
+
+        notify-send \
+            "Syncthing conflict" \
+            $'A sync conflict file has been detected:\n'"$FILE" \
+            --icon=info \
+            --expire-time=0 \
+            --app-name "$APP_NAME" ||
+            echo "$(date): Failed to send notification" >&2
+    fi
+done < <(
+    inotifywait \
+        --monitor \
+        --recursive \
+        --event create,moved_to \
+        --format '%w%f' \
+        "${DIRECTORIES_TO_MONITOR[@]}"
+)

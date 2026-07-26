@@ -1,0 +1,12 @@
+[Unit]
+Description=Monitor for Syncthing conflict files
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/bin/syncthing-monitor
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
