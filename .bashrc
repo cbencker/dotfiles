@@ -96,5 +96,19 @@ fi
 # Set Rust environment variables
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
+# Prepend if folder is not already in $PATH
+path_prepend() {
+    case ":$PATH:" in
+    *":$1:"*)
+        return
+        ;;
+    *)
+        PATH="$1:$PATH"
+        ;;
+    esac
+}
+
 # Add custom scripts to path
-export PATH="$HOME/bin:$PATH"
+path_prepend "$HOME/bin"
+
+export PATH
