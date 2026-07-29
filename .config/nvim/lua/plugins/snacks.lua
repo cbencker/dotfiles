@@ -20,6 +20,18 @@ end
 return {
     "folke/snacks.nvim",
     opts = function(_, opts)
+        if vim.fn.has("win32") == 1 then
+            local bash = "C:/Program Files/Git/bin/bash.exe"
+
+            if vim.fn.executable(bash) == 1 then
+                -- NOTE: This only changes the Snacks terminal. `:!` will still use
+                -- cmd. Trying to change `vim.opt.shell` to Bash causes issues due
+                -- to the space in the path, as well as quoting issues.
+                opts.terminal = opts.terminal or {}
+                opts.terminal.shell = { bash }
+            end
+        end
+
         opts.scroll = vim.tbl_deep_extend("force", opts.scroll or {}, {
             enabled = true,
             animate = {

@@ -28,8 +28,8 @@ vim.keymap.set({ "v", "x" }, "<M-h>", "<gv", { desc = "Indent left" })
 vim.keymap.set({ "v", "x" }, "<M-l>", ">gv", { desc = "Indent right" })
 
 -- Move buffer left/right in buffer line
-vim.keymap.set("n", "<A-,>", "<Cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
-vim.keymap.set("n", "<A-.>", "<Cmd>BufferLineMoveNext<CR>", { desc = "Move buffer right" })
+vim.keymap.set("n", "<M-,>", "<Cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
+vim.keymap.set("n", "<M-.>", "<Cmd>BufferLineMoveNext<CR>", { desc = "Move buffer right" })
 
 -- Use <ESC> to exit terminal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
