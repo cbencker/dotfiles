@@ -6,11 +6,11 @@
 --      - Automatically saving the current session when restoring another session
 --      - Not saving the current session while in a suppressed directory
 
--- TODO: Also check `bypass_save_filetypes`
-
 ---@class Session
 local M = {}
+
 ---Returns true if `dir` is an auto-session suppressed directory.
+---NOTE: A manual `:AutoSession save` does not ignore suppressed directories.
 ---@param dir string
 ---@return boolean
 local function is_suppressed_dir(dir)
@@ -22,7 +22,7 @@ local function is_suppressed_dir(dir)
     for _, suppressed in ipairs(suppressed_dirs) do
         suppressed = vim.fs.normalize(vim.fn.expand(suppressed))
 
-        if dir == suppressed or vim.startswith(dir, suppressed .. "/") then
+        if dir == suppressed or vim.fs.relpath(suppressed, dir) ~= nil then
             return true
         end
     end
@@ -34,11 +34,18 @@ end
 ---@return boolean
 local function has_modified_buffers()
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].modified then
+        if vim.bo[buf].buftype == "" and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].modified then
             return true
         end
     end
     return false
+end
+
+---Saves the current session if it is not a suppressed directory
+local function safe_save()
+    if not is_suppressed_dir(vim.fn.getcwd()) then
+        vim.cmd("AutoSession save")
+    end
 end
 
 ---Checks if a session with the name `name` exists. Case-sensitivity
@@ -46,8 +53,8 @@ end
 ---@param name string The name of the session to check for
 ---@return boolean
 function M.exists(name)
-    local dir = vim.fn.stdpath("data") .. "/sessions/"
-    return vim.uv.fs_stat(dir .. name .. ".vim") ~= nil
+    local dir = require("auto-session.config").options.root_dir
+    return vim.uv.fs_stat(vim.fs.joinpath(dir, name .. ".vim")) ~= nil
 end
 
 ---If there are no unsaved buffers, saves the current session, unless it
@@ -59,10 +66,7 @@ function M.safe_restore(session)
         return
     end
 
-    if not is_suppressed_dir(vim.fn.getcwd()) then
-        vim.cmd("AutoSession save")
-    end
-
+    safe_save()
     vim.cmd("AutoSession restore" .. (session and (" " .. session) or ""))
 end
 
@@ -75,10 +79,7 @@ function M.safe_search()
         return
     end
 
-    if not is_suppressed_dir(vim.fn.getcwd()) then
-        vim.cmd("AutoSession save")
-    end
-
+    safe_save()
     vim.cmd("AutoSession search")
 end
 
