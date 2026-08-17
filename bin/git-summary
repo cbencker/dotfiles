@@ -3,10 +3,14 @@
 shopt -s nullglob
 
 # Parse command-line options
+output_branch=false
 do_fetch=false
 
-while getopts "fh" opt; do
+while getopts "bfh" opt; do
     case "$opt" in
+    b)
+        output_branch=true
+        ;;
     f)
         do_fetch=true
         ;;
@@ -15,13 +19,14 @@ while getopts "fh" opt; do
 Usage: $(basename "$0") [options]
 
 Options:
+  -b    Show the name of the checked out branch for each repo.
   -f    Perform 'git fetch --prune --porcelain' before checking status.
   -h    Show this help message.
 EOF
         exit 0
         ;;
     *)
-        echo "Usage: $(basename "$0") [-f]"
+        echo "Usage: $(basename "$0") [-bf]"
         exit 1
         ;;
     esac
@@ -64,7 +69,7 @@ for dir in */; do
     #
     # Status
     #
-    status=$(git status --short)
+    status=$(git --no-optional-locks status --short)
 
     if [[ -n "$status" ]]; then
         changed=true
@@ -86,14 +91,27 @@ for dir in */; do
     fi
 
     #
+    # Branch
+    #
+    branch=$(git branch --show-current)
+    branch_length="$((${#branch} + 3))" # Add 3 for space and ()
+
+    if [[ "$output_branch" == true ]]; then
+        branch="${BOLD}${YELLOW}($branch)${RESET}"
+    else
+        branch=""
+        branch_length=0
+    fi
+
+    #
     # Output
     #
     if $changed; then
-        printf "%b\n" "${BOLD}${YELLOW}${repo}${RESET}"
-        printf '%*s\n' "${#repo}" '' | tr ' ' '-'
-        printf "%b\n" "${output[@]}"
+        printf "%s %s\n" "${YELLOW}${repo}${RESET}" "$branch"
+        printf "%*s\n" "$((${#repo} + branch_length))" '' | tr ' ' '-'
+        printf "%s\n" "${output[@]}"
     else
-        printf "%b\n" "${BOLD}${GREEN}${repo}: Clean${RESET}"
+        printf "%-18s : %s %s\n" "${BOLD}${GREEN}${repo}" "Clean${RESET}" "$branch"
     fi
 
     popd >/dev/null
