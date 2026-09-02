@@ -18,7 +18,12 @@ vim.keymap.set({ "n", "v" }, "<Down>", "gj")
 
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Leave insert mode" })
 vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete by word" })
-vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all" })
+
+-- Use a function because "ggVG" sometimes fails after switching from another program
+vim.keymap.set("n", "<C-a>", function()
+    vim.api.nvim_win_set_cursor(0, { 1, 0 })
+    vim.cmd("normal! VG")
+end, { desc = "Select all" })
 
 -- Indenting
 vim.keymap.set("i", "<S-Tab>", "<C-d>", { desc = "Indent left" })

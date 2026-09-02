@@ -10,6 +10,7 @@
 -- Bootstrap lazy.nvim, LazyVim, and plugins
 require("config.lazy")
 
+-- Set font
 if vim.fn.has("win32") == 1 then
     vim.o.guifont = "JetBrainsMonoNL Nerd Font:h10"
 else

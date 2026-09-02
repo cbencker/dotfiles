@@ -36,6 +36,11 @@ return {
                     -- Don't write new entries to the .project file
                     resourceFilters = {},
                 },
+                inlayHints = {
+                    parameterNames = {
+                        enabled = "literals", -- "all", "literals", or "none"
+                    },
+                },
             },
         })
 
