@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 shopt -s nullglob
+set -o pipefail
 
 # Parse command-line options
 output_branch=false
@@ -56,7 +57,11 @@ for dir in */; do
     # Fetch
     #
     if $do_fetch; then
-        fetch_output=$(git fetch --prune --porcelain 2>&1)
+        fetch_output=$(git fetch --prune --porcelain --quiet |
+            awk '{
+                sub("refs/remotes/origin/", "", $NF)
+                print $1, $NF
+            }')
 
         if [[ -n "$fetch_output" ]]; then
             changed=true
