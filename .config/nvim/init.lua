@@ -20,6 +20,10 @@ end
 -- Recommended for auto-session
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
+-- Don't write the cursor position to views. Reading cursor position with
+-- AutoView (see autocmds.lua) makes quickfix jumps behave unexpectedly.
+vim.opt.viewoptions:remove("cursor")
+
 -- Create empty windows for diffing arbitrary text
 vim.api.nvim_create_user_command("DiffScratch", function()
     vim.cmd.tabnew()
