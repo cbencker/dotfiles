@@ -66,3 +66,17 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
         end
     end,
 })
+
+-- Disable semantic token highlighting for Java files, and only rely on Treesitter.
+-- Semantic tokens cause highlighting to get out of sync for some reason.
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        if vim.bo[args.buf].filetype ~= "java" then
+            return
+        end
+
+        vim.lsp.semantic_tokens.enable(false, {
+            bufnr = args.buf,
+        })
+    end,
+})
