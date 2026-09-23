@@ -19,6 +19,10 @@ vim.keymap.set({ "n", "v" }, "<Down>", "gj")
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Leave insert mode" })
 vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete by word" })
 
+-- Don't replace registers when using x or X
+vim.keymap.set({ "n", "x" }, "x", '"_x')
+vim.keymap.set({ "n", "x" }, "X", '"_X')
+
 -- Use a function because "ggVG" sometimes fails after switching from another program
 vim.keymap.set("n", "<C-a>", function()
     vim.api.nvim_win_set_cursor(0, { 1, 0 })
@@ -29,8 +33,8 @@ end, { desc = "Select all" })
 vim.keymap.set("i", "<S-Tab>", "<C-d>", { desc = "Indent left" })
 vim.keymap.set("n", "<M-h>", "<<", { desc = "Indent left" })
 vim.keymap.set("n", "<M-l>", ">>", { desc = "Indent right" })
-vim.keymap.set({ "v", "x" }, "<M-h>", "<gv", { desc = "Indent left" })
-vim.keymap.set({ "v", "x" }, "<M-l>", ">gv", { desc = "Indent right" })
+vim.keymap.set("v", "<M-h>", "<gv", { desc = "Indent left" })
+vim.keymap.set("v", "<M-l>", ">gv", { desc = "Indent right" })
 
 -- Move buffer left/right in buffer line
 vim.keymap.set("n", "<M-,>", "<Cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
