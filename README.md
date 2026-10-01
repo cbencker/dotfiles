@@ -4,19 +4,21 @@ My personal dotfiles, managed as a bare Git repository.
 
 Configuration files are tracked directly in `$HOME`, so no symlinks are required. The bare repository itself is stored in `$HOME/.cfg`.
 
+The configuration is intended to be usable on both Linux and Windows, but Windows setups will need Git Bash installed in order to run commands and use certain scripts.
+
 This setup is based on the Atlassian article, [The best way to store your dotfiles: A bare Git repository](https://www.atlassian.com/git/tutorials/dotfiles).
 
-## Alias
+## Shell alias
 
 I use the following shell alias to manage the repository (this is also in `.bashrc`):
 
-```sh
+```bash
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 ```
 
 Examples:
 
-```sh
+```bash
 config status
 config add .bashrc
 config commit -m "Update bash config"
@@ -27,41 +29,43 @@ config push
 
 Clone the bare repository:
 
-```sh
+```bash
 git clone --bare <repo-url> "$HOME/.cfg"
 ```
 
 Define the alias, if not using the `.bashrc` that already contains it:
 
-```sh
+```bash
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 ```
 
 If needed, append the alias to your `.bashrc` (again, this repo's `.bashrc` already has it):
 
-```sh
+```bash
 echo "alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
 ```
 
 Check out the files:
 
-```sh
+```bash
 config checkout
 ```
 
 If Git reports that existing files would be overwritten, move or back up those files and run `config checkout` again.
 
-Hide untracked files from `config status`:
+Hide untracked files from `config status` (only for this repository):
 
-```sh
+```bash
 config config --local status.showUntrackedFiles no
 ```
 
 If using the pre-commit hook, it may need to be set as executable:
 
-```sh
+```bash
 chmod +x ~/.githooks/pre-commit
 ```
+
+## Additional tools
 
 ### git-summary
 
@@ -69,8 +73,45 @@ chmod +x ~/.githooks/pre-commit
 
 The script may need to be set as executable:
 
-```sh
+```bash
 chmod +x ~/bin/git-summary
+```
+
+Usage:
+
+```bash
+git-summary
+git-summary -fb
+```
+
+### Git aliases
+
+#### `lg`
+
+Display a compact graph of all branches and tags:
+
+```bash
+git config --global alias.lg 'log --all --decorate --graph --oneline'
+```
+
+Usage:
+
+```bash
+git lg
+git lg -20
+```
+
+#### `lgd`
+
+Display the commit date in addition to the compact graph:
+
+```bash
+git config --global alias.lgd 'log --all --decorate --graph --date=short --pretty=format:"%C(yellow)%h%Creset %C(magenta)%ad%Creset%C(auto)%d%Creset %s"'
+```
+
+```bash
+git lgd
+git lgd -20
 ```
 
 ## Resources
