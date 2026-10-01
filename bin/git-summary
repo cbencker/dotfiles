@@ -57,7 +57,7 @@ for dir in */; do
     # Fetch
     #
     if $do_fetch; then
-        fetch_output=$(git fetch --prune --porcelain --quiet |
+        fetch_output=$(git fetch --prune --porcelain 2>/dev/null |
             awk '{
                 sub("refs/remotes/origin/", "", $NF)
                 print $1, $NF
