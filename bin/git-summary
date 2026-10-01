@@ -47,6 +47,9 @@ MAGENTA=$'\e[35m'
 BOLD=$'\e[1m'
 RESET=$'\e[0m'
 
+# Used to add a blank line after a group of clean repos
+previous_repo_clean=true
+
 for dir in */; do
     repo="${dir%/}"
 
@@ -117,11 +120,17 @@ for dir in */; do
     # Output
     #
     if $changed; then
+        if $previous_repo_clean; then
+            printf "\n"
+        fi
+
         printf "%s %s\n" "${YELLOW}${repo}${RESET}" "$branch"
         printf "%*s\n" "$((${#repo} + branch_length))" '' | tr ' ' '-'
         printf "%s\n" "${output[@]}"
+        previous_repo_clean=false
     else
         printf "%-18s : %s %s\n" "${BOLD}${GREEN}${repo}" "Clean${RESET}" "$branch"
+        previous_repo_clean=true
     fi
 
     popd >/dev/null
