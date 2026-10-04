@@ -25,6 +25,27 @@ config commit -m "Update bash config"
 config push
 ```
 
+## Installing Neovim
+
+This repo contains Neovim config files intended to be used with LazyVim. I also use Neovide as a Neovim GUI client.
+
+Install Neovim and Neovide using the system package manager (both are available through `winget` on Windows).
+
+> [!NOTE]
+> I have noticed that in some situations, Neovide will not work correctly if installed through a
+> package manager on Linux. Building it from source instead should fix these issues.
+> The [Neovide website](https://neovide.dev/installation.html#linux-source) has simple instructions for this using Cargo.
+
+Install the [LazyVim starter](https://www.lazyvim.org/installation), using the default location it recommends. LazyVim will install its default plugins on first launch.
+
+Using Noice (included in LazyVim) with Neovide can produce errors about `ext_messages` and `ext-cmdline`. To fix these, add `--no-startup-message-capture` to Neovide's launch command.
+
+## Font installation
+
+My Neovim config uses `JetBrainsMonoNL Nerd Font`, which includes icons that are used throughout Neovim. Install this font from the [Nerd Fonts website](https://www.nerdfonts.com).
+
+To use a different font, you will need to change `vim.o.guifont` in `.config/nvim/init.lua`.
+
 ## Setting up on a new machine
 
 Clone the bare repository:
@@ -59,7 +80,7 @@ Hide untracked files from `config status` (only for this repository):
 config config --local status.showUntrackedFiles no
 ```
 
-If using the pre-commit hook, it may need to be set as executable:
+If you would like to use the pre-commit hook in this repository, it will first need to be set as executable:
 
 ```bash
 chmod +x ~/.githooks/pre-commit
