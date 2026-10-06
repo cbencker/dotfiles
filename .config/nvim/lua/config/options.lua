@@ -12,7 +12,7 @@
 
 -- Spellfiles
 -- By default, zg will put words into a private spellfile.
--- Running 2zg will use the global spellfile, which can be synced to Github
+-- Running 2zg will use the global spellfile, which can be synced to GitHub
 vim.opt.spellfile = {
     vim.fn.stdpath("config") .. "/spell/private.utf-8.add",
     vim.fn.stdpath("config") .. "/spell/global.utf-8.add",
