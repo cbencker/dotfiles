@@ -111,4 +111,9 @@ path_prepend() {
 # Add custom scripts to path
 path_prepend "$HOME/bin"
 
+# Initialize Homebrew, if installed
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 export PATH

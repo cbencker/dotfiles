@@ -3,6 +3,7 @@ Description=Monitor for Syncthing conflict files
 After=graphical-session.target
 
 [Service]
+Environment="PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin"
 Type=simple
 ExecStart=%h/bin/syncthing-monitor
 Restart=on-failure

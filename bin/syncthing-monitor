@@ -10,8 +10,8 @@
 # and sends a desktop notification when one is detected.
 
 # Installation:
-#   1. Copy this script to ~/bin/syncthing-monitor
-#   2. Copy syncthing-monitor.service to:
+#   1. Make sure this script is at ~/bin/syncthing-monitor
+#   2. Make sure syncthing-monitor.service exists at:
 #        ~/.config/systemd/user/syncthing-monitor.service
 #   3. Reload systemd user services:
 #        systemctl --user daemon-reload
