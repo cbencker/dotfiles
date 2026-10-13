@@ -18,10 +18,15 @@ vim.opt.spellfile = {
     vim.fn.stdpath("config") .. "/spell/global.utf-8.add",
 }
 
+-- Don't write the cursor position to views. Reading cursor position with
+-- AutoView (see autocmds.lua) makes quickfix jumps behave unexpectedly.
+vim.opt.viewoptions:remove("cursor")
+
 -- Editing
 vim.opt.clipboard = "unnamedplus" -- Integrate with system clipboard
 vim.opt.diffopt:append("vertical") -- Use vertical splits for :diffsplit
 vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.fileformat = "unix" -- Use LF for new files
 vim.opt.iskeyword:append("-") -- Treat hyphenated strings as a single word
 vim.opt.scrolloff = 8 -- Lines to keep above/below the cursor
 vim.opt.shiftwidth = 4 -- Size of an indent
