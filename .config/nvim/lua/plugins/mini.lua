@@ -26,6 +26,16 @@ return {
         event = "VeryLazy",
         config = function()
             require("mini.trailspace").setup()
+
+            vim.api.nvim_create_autocmd("FileType", {
+                group = vim.api.nvim_create_augroup("MiniTrailspaceDbout", {
+                    clear = true,
+                }),
+                pattern = "dbout",
+                callback = function(args)
+                    vim.b[args.buf].minitrailspace_disable = true
+                end,
+            })
         end,
     },
 }
