@@ -11,13 +11,17 @@
 --         },
 --     }
 
+local platform = require("config.platform")
+
 return {
     {
         "tpope/vim-dadbod",
+        cond = platform.is_windows,
         lazy = true,
     },
     {
         "kristijanhusak/vim-dadbod-ui",
+        cond = platform.is_windows,
         dependencies = {
             { "tpope/vim-dadbod", lazy = true },
             {
@@ -26,8 +30,10 @@ return {
             },
         },
         init = function()
-            vim.g.dbs = require("config.db_connections")
-            vim.g.db_ui_execute_on_save = 0
+            if platform.is_windows then
+                vim.g.dbs = require("config.db_connections")
+                vim.g.db_ui_execute_on_save = 0
+            end
         end,
         cmd = {
             "DBUI",

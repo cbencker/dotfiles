@@ -1,3 +1,4 @@
+local platform = require("config.platform")
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -23,7 +24,7 @@ local spec = {
 
 -- Only enable Java language features on Windows
 -- (Make sure lang.java is not enabled in LazyExtras UI)
-if vim.fn.has("win32") == 1 then
+if platform.is_windows then
     table.insert(spec, {
         import = "lazyvim.plugins.extras.lang.java",
     })

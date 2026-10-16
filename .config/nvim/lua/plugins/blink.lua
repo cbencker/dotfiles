@@ -1,6 +1,9 @@
+local platform = require("config.platform")
+
 return {
     {
         "saghen/blink.cmp",
+        cond = platform.is_windows,
         optional = true,
         opts = {
             completion = {

@@ -1,3 +1,4 @@
+local platform = require("config.platform")
 local has_session_script, session = pcall(require, "config.session")
 
 ---Insert an item into the Snacks dashboard key list immediately after the
@@ -20,7 +21,7 @@ end
 return {
     "folke/snacks.nvim",
     opts = function(_, opts)
-        if vim.fn.has("win32") == 1 then
+        if platform.is_windows then
             local bash = "C:/Program Files/Git/bin/bash.exe"
 
             if vim.fn.executable(bash) == 1 then

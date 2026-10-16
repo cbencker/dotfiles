@@ -1,12 +1,10 @@
 -- ~/.config/nvim/lua/plugins/java.lua
 
--- Don't set up on non-Windows machines
-if vim.fn.has("win32") == 0 then
-    return {}
-end
+local platform = require("config.platform")
 
 return {
     "mfussenegger/nvim-jdtls",
+    cond = platform.is_windows,
     opts = function(_, opts)
         local jdtls_exe = vim.fn.exepath("jdtls")
         local jdk25_java = "C:/Program Files/Eclipse Adoptium/jdk-25.0.3.9-hotspot/bin/java.exe"
