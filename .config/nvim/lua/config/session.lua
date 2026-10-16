@@ -9,6 +9,16 @@
 ---@class Session
 local M = {}
 
+local function get_auto_session_options()
+    local ok, config = pcall(require, "auto-session.config")
+
+    if not ok or type(config.options) ~= "table" then
+        return {}
+    end
+
+    return config.options
+end
+
 ---Returns true if `dir` is an auto-session suppressed directory.
 ---NOTE: A manual `:AutoSession save` does not ignore suppressed directories.
 ---@param dir string
@@ -16,8 +26,10 @@ local M = {}
 local function is_suppressed_dir(dir)
     dir = vim.fs.normalize(dir)
 
+    local options = get_auto_session_options()
+
     ---@type string[]
-    local suppressed_dirs = require("auto-session.config").options.suppressed_dirs or {}
+    local suppressed_dirs = options.suppressed_dirs or {}
 
     for _, suppressed in ipairs(suppressed_dirs) do
         suppressed = vim.fs.normalize(vim.fn.expand(suppressed))
@@ -53,7 +65,8 @@ end
 ---@param name string The name of the session to check for
 ---@return boolean
 function M.exists(name)
-    local dir = require("auto-session.config").options.root_dir
+    local options = get_auto_session_options()
+    local dir = options.root_dir
     return vim.uv.fs_stat(vim.fs.joinpath(dir, name .. ".vim")) ~= nil
 end
 
