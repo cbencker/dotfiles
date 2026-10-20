@@ -67,8 +67,15 @@ for dir in */; do
     if $do_fetch; then
         fetch_output=$(git fetch --prune --porcelain 2>/dev/null |
             awk '{
-                sub("refs/remotes/origin/", "", $NF)
-                print $1, $NF
+                flag = substr($0, 1, 1)
+                rest = substr($0, 3)
+                split(rest, fields, " ")
+                old_hash = fields[1]
+                new_hash = fields[2]
+                branch = fields[3]
+                sub("refs/remotes/origin/", "", branch)
+                new_hash_short = substr(new_hash, 1, 8)
+                print flag, new_hash_short, branch
             }')
 
         if [[ -n "$fetch_output" ]]; then
