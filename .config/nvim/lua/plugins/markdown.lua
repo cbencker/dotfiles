@@ -1,10 +1,21 @@
--- Disable Markdown linting
 return {
+    -- Disable Markdown linting
     {
         "mfussenegger/nvim-lint",
         opts = {
             linters_by_ft = {
                 markdown = {},
+            },
+        },
+    },
+    -- Enable md-table-tidy.nvim
+    {
+        "timantipov/md-table-tidy.nvim",
+        opts = {
+            padding = 1,
+            keymap = {
+                table_tidy = "<leader>tt",
+                table_tidy_all = "<leader>ta",
             },
         },
     },
