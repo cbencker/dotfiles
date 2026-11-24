@@ -103,3 +103,56 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.formatoptions:append("n") -- Recognize numbered lists
     end,
 })
+
+local group = vim.api.nvim_create_augroup("java_fold_keymaps", { clear = true })
+
+-- Make `zc` fold a function when the cursor is anywhere in its header
+vim.api.nvim_create_autocmd("FileType", {
+    group = group,
+    pattern = "java",
+    callback = function(args)
+        -- Returns the 1-based line of the method's `{` if the cursor is in its header
+        local function header_body_line()
+            local row = vim.api.nvim_win_get_cursor(0)[1] - 1
+            -- Use the first non-blank column so leading whitespace doesn't land in the class body
+            local text = vim.api.nvim_buf_get_lines(0, row, row + 1, false)[1] or ""
+            local col = (text:find("%S") or 1) - 1
+
+            local node = vim.treesitter.get_node({ pos = { row, col } })
+            while node and node:type() ~= "method_declaration" and node:type() ~= "constructor_declaration" do
+                node = node:parent()
+            end
+            local body = node and node:field("body")[1]
+            if not body then
+                return nil
+            end
+
+            local body_row = body:range()
+            if row < body_row then
+                return body_row + 1
+            end
+            return nil
+        end
+
+        vim.keymap.set("n", "zc", function()
+            local line = header_body_line()
+            if line then
+                vim.api.nvim_win_set_cursor(0, { line, 0 })
+            end
+            vim.cmd("normal! zc")
+        end, { buffer = args.buf, desc = "Close fold (method-aware)" })
+
+        vim.keymap.set("n", "zo", function()
+            local line = header_body_line()
+            -- Only redirect when the method's fold is actually closed
+            if line and vim.fn.foldclosed(line) ~= -1 then
+                local pos = vim.api.nvim_win_get_cursor(0)
+                vim.api.nvim_win_set_cursor(0, { line, 0 })
+                vim.cmd("normal! zo")
+                pcall(vim.api.nvim_win_set_cursor, 0, pos)
+            else
+                vim.cmd("normal! zo")
+            end
+        end, { buffer = args.buf, desc = "Open fold (method-aware)" })
+    end,
+})
