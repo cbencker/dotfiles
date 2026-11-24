@@ -51,19 +51,25 @@ vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
 })
 
 -- Load view when entering a buffer
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+vim.api.nvim_create_autocmd("BufWinEnter", {
     group = view_group,
     callback = function(args)
-        if vim.bo[args.buf].buftype ~= "" then
+        if vim.bo[args.buf].buftype ~= "" or vim.api.nvim_buf_get_name(args.buf) == "" then
             return
         end
 
-        local view = vim.fn.bufname(args.buf)
-        if view ~= "" then
-            vim.schedule(function()
-                vim.cmd("silent! loadview")
-            end)
+        -- Only load the view the first time this buffer is shown
+        if vim.b[args.buf].view_loaded then
+            return
         end
+        vim.b[args.buf].view_loaded = true
+
+        vim.schedule(function()
+            -- Make sure we're still in the same buffer when the scheduled call runs
+            if vim.api.nvim_buf_is_valid(args.buf) and vim.api.nvim_get_current_buf() == args.buf then
+                vim.cmd("silent! loadview")
+            end
+        end)
     end,
 })
 
