@@ -80,3 +80,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
         })
     end,
 })
+
+-- Use built-in formatting for Markdown files
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function()
+        vim.opt_local.formatexpr = ""
+        vim.opt_local.formatprg = ""
+        vim.opt_local.textwidth = 100
+        vim.opt_local.formatlistpat = [[^\s*[-*+]\s\+\|^\s*\d\+[.)]\s\+]]
+        vim.opt_local.formatoptions:append("n") -- Recognize numbered lists
+    end,
+})
