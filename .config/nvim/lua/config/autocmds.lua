@@ -66,9 +66,14 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 
         vim.schedule(function()
             -- Make sure we're still in the same buffer when the scheduled call runs
-            if vim.api.nvim_buf_is_valid(args.buf) and vim.api.nvim_get_current_buf() == args.buf then
-                vim.cmd("silent! loadview")
+            if not (vim.api.nvim_buf_is_valid(args.buf) and vim.api.nvim_get_current_buf() == args.buf) then
+                return
             end
+            -- Remember where the cursor (and scroll position) is before the view runs
+            local saved = vim.fn.winsaveview()
+            vim.cmd("silent! loadview")
+            -- Put it back; the view should only contribute folds
+            pcall(vim.fn.winrestview, saved)
         end)
     end,
 })
